@@ -2,7 +2,7 @@ class TodoItemsController < ApplicationController
 before_action :set_todo_list
 
 def create
-    @todo_tiem = @todo_list.todo_items.create(todo_item_params)
+    @todo_item = @todo_list.todo_items.create(todo_item_params)
 
     redirect_to @todo_list
 
@@ -23,6 +23,14 @@ def destroy
     
     end
 
+    def complete
+        @todo_item = TodoItem.find(params[:id])
+        @todo_item.update_attributes(:completed_at => Time.now)
+        redirect_to @todo_list, notice: "Todo item completed"
+    end
+
+
+
 
 
 
@@ -38,6 +46,5 @@ def todo_item_params
     params[:todo_item].permit(:content)
 end
 
-def todo_item_params
-    params[:todo_item].permit(:content)
+
 end
